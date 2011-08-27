@@ -16,7 +16,27 @@ var frequencies = [],
     data = [],
     bubble = d3.layout.pack()
         .sort(null)
-        .size([canvasWidth, canvasHeight])
+        .size([canvasWidth, canvasHeight]),
+    hsl = {
+      green: {
+          hue: 146,
+          saturation: 100,
+          lightness: 25,
+          min: 1000
+      },
+      red: {
+          hue: 356,
+          saturation: 100,
+          lightness: 25,
+          min: 200
+      },
+      grey: {
+          hue: 0,
+          saturation: 0,
+          lightness: 58,
+          min: 600
+      }
+    }
     
 function initVisualization(){
     d3.select('#visualization').append('svg:svg')
@@ -105,7 +125,7 @@ function updateVisualization(summary){
 
     newNodes.append("svg:circle")
         .attr("r", function(d) { return d.r; })
-        .style("fill", function(d) { return ['red', 'green', 'blue'][Math.floor(Math.random() * 3)] })
+        .style("fill", function(d) { return hslFromVal(d.value) })
 
     newNodes.append("svg:text")
         .attr("text-anchor", "middle")
@@ -232,6 +252,20 @@ $(function(){
         stop = true
     })
 })
+
+function hslFromVal( val ){
+  
+  var color = 'green';
+  
+  if( val < hsl.green.min ){
+    color = ( val < hsl.red.min ) ? 'red' : 'grey';
+  }
+  
+  // todo: figure out lightness from confidence
+  lightness = hsl[ color ].lightness + Math.floor(Math.random() * (10 - 5 + 1) + 5);
+  
+  return "hsl(" + hsl[ color ].hue + ", " + hsl[ color ].saturation + "%, " +lightness + "%)";
+}
 
 
 

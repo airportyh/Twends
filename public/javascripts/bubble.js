@@ -55,7 +55,7 @@ d3.json( 'javascripts/sample.json', function(json) {
       .attr("dy", ".3em")
       .text(function(d) { return d.className.substring(0, d.r / 3); });
       
-  setTimeout(function(){
+  setInterval(function(){
 
       // simulate new values for existing circles
       var i = 0;
@@ -133,14 +133,8 @@ function hslFromVal( val ){
     color = ( val < hsl.red.min ) ? 'red' : 'grey';
   }
   
-  // todo: intelligently figure out lightness
+  // todo: figure out lightness from confidence
   lightness = hsl[ color ].lightness + Math.floor(Math.random() * (10 - 5 + 1) + 5);
   
-  // todo: figure out alpha
   return "hsl(" + hsl[ color ].hue + ", " + hsl[ color ].saturation + "%, " +lightness + "%)";
 }
-
-
-
-
-
