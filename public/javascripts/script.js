@@ -9,19 +9,29 @@ var frequencies = [],
     running = false,
     query = null,
     wordToIdx = {},
-    canvasWidth = 960,
-    canvasHeight = 960,
+    canvasWidth,
+    canvasHeight,
     stop = false,
     prevData = [],
-    data = [],
-    bubble = d3.layout.pack()
+    data = []
+    
+function bubble(){
+    return d3.layout.pack()
         .sort(null)
         .size([canvasWidth, canvasHeight])
+}
     
+function fitCanvas(){        
+    canvasHeight = $(window).height() - $('#top').height()
+    canvasWidth = $(window).width()
+    d3.select('#visualization svg')
+        .attr('width', canvasWidth)
+        .attr('height', canvasHeight)
+}
+
 function initVisualization(){
     d3.select('#visualization').append('svg:svg')
-        .attr('width', 960)
-        .attr('height', 960)
+    fitCanvas()
 }
 
 function updateVisualization(summary){
@@ -43,14 +53,15 @@ function updateVisualization(summary){
     data = []
     for (var word in wordToIdx)
         if (word in summary &&
-            word !== query){
+            word !== query.toLowerCase() &&
+            summary[word] >= 2){
             data[wordToIdx[word]] = {
                 count: summary[word], 
                 value: summary[word] * 100, 
                 word: word
             }
         }else{
-            // a-hole
+            // hole
             data[wordToIdx[word]] = {count: 0, value: 1, word: ''}
         }
     
@@ -66,25 +77,10 @@ function updateVisualization(summary){
     })
     
 
-    var bubbles = bubble.nodes({children: data})
+    var bubbles = bubble().nodes({children: data})
         .filter( function(d) { return !d.children; } )
     
     
-    /*
-    if (_(data).any(function(d){
-        return d.value === 0
-    }))
-        console.log('there are zeros')
-    
-    if (_(data).any(function(b){
-        return b.x != b.x
-    })){
-        
-        stop = true
-        throw new Error('crap')
-        return
-    }
-    */
 
     var allNodes = d3.select('#visualization')
         .select('svg')
@@ -101,16 +97,18 @@ function updateVisualization(summary){
         window.newNodes = newNodes
     
     newNodes.append("svg:title")
-        .text(function(d) { return d3.format(',d')(d.value); })
+        
 
     newNodes.append("svg:circle")
         .attr("r", function(d) { return d.r; })
-        .style("fill", function(d) { return ['red', 'green', 'blue'][Math.floor(Math.random() * 3)] })
+        .style("fill", function(d) { 
+            return ['red', 'green', 'blue'][Math.floor(Math.random() * 3)]
+        })
 
     newNodes.append("svg:text")
         .attr("text-anchor", "middle")
         .attr("dy", ".3em")
-        .text(function(d) { return d.word })
+        
         
     allNodes
       .transition()
@@ -118,19 +116,37 @@ function updateVisualization(summary){
         .attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ")"
         })
+        .style('visibility', function(d){
+            return d.count === 0 ? 'hidden': 'visible'
+        })
+    allNodes
         .select("circle")
           .transition()
           .duration(1000)
-          .attr("r", function(d) { return d.r; } );
-    
+          .attr("r", function(d) { return d.r; } )
+    allNodes
+        .select('title')
+            .text(function(d) { 
+                return d.count === 0 ? '' : d3.format(',d')(d.count) })
+    allNodes
+        .select('text')
+            .text(function(d){
+                return d.count === 0 ? '' : d.word
+            })
 }
 
 function reset(){
     frequencies = []
     wordToElement = {}
+    wordToIdx = {}
     summary = {}
     sinceID = null
-    timeoutID = null    
+    timeoutID = null   
+    d3.select('#visualization')
+        .select('svg')
+        .selectAll('g.node')
+        .data([])
+        .exit().remove()
 }
 
 function decodeEntity(text){
@@ -164,8 +180,6 @@ function poll(){
                     for (var word in last)
                         summary[word]--
                 }
-            
-            
             })
             updateVisualization(summary)
             timeoutID = setTimeout(poll, 1000)
@@ -191,6 +205,9 @@ function getTrends(cb){
 
 function setQuery(q){
     query = q
+    try{
+        query = query.match(/^[^a-zA-Z0-9]*(.*?)[^a-zA-Z0-9]*$/)[1]
+    }catch(e){}
     if (running){
         console.log('reseting')
         reset()
@@ -204,12 +221,13 @@ function setQuery(q){
         $label = $display.find('label'),
         $changeLink = $display.find('a')
     $input.hide()
-    $label.html(query)
+    $label.html(q)
     $display.show()
 }
 
 
 $(function(){
+    fitCanvas()
     initVisualization()
     getTrends()
     var $search = $('#search'),
@@ -231,6 +249,7 @@ $(function(){
         console.log('stopped')
         stop = true
     })
+    $(window).resize(fitCanvas)
 })
 
 
