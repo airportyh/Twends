@@ -24,49 +24,81 @@ CommonWords.english = "a about after again against all an another any and are as
  was wasn't we were we're what when where which while who why will with would wouldn't\
  you your".split(' ')
  
- function tokenize(text, commonWords){
-     return text
-         .replace(/[^\'a-zA-Z]/g, ' ')
-         .split(' ')
-         .filter(function(p){return p != ''})
-         .map(function(word){
-             return word.toLowerCase()
-         })
-         .filter(function(word){
-         	return commonWords.indexOf(word) == -1
-         })
- }
- 
- function wordSummary(text, commonWords){
-     var words = tokenize(text, commonWords)
-     var freq = {}
-     words.forEach(function(word){ 
-         freq[word] = (freq[word] || 0) + 1
-     })
-     return freq
- }
+function tokenize(text, commonWords){
+    return text
+        .replace(/[^\'a-zA-Z]/g, ' ')
+        .split(' ')
+        .filter(function(p){return p != ''})
+        .map(function(word){
+            return word.toLowerCase()
+        })
+        .filter(function(word){
+        	return commonWords.indexOf(word) == -1
+        })
+}
+
+function wordSummary(text, commonWords){
+    var words = tokenize(text, commonWords)
+    var freq = {}
+    words.forEach(function(word){ 
+        freq[word] = (freq[word] || 0) + 1
+    })
+    return freq
+}
+
+function printSummary(summary){
+    var pairs = _.keys(summary).map(function(key){
+        return [key, summary[key]]
+    }).sort(function(one, other){
+        return other[1] - one[1]
+    }).slice(0, 10)
+    console.log(pairs.map(function(p){ return p[0] + '(' + p[1] + ')' })
+        .join(' '))
+}
 
 var frequencies = [],
+    wordToElement = {},
     summary = {},
-    window_size = 200
+    windowSize = 200,
+    sinceID = null
 
-$(function(){
+function poll(){
+    var params = 
     $.ajax({
         url: 'http://search.twitter.com/search.json',
         data: {
             q: 'node.js',
-            lang: 'en'
+            lang: 'en',
+            since_id: sinceID
         },
         dataType: 'jsonp',
         success: function(data){
-            _.each(data.results, function(tweet){
+            _.each(data.results, function(tweet, i){
+                if (i === 0) sinceID = tweet.id_str
                 var text = tweet.text
                 var freq = wordSummary(text, CommonWords.english)
                 frequencies.push(freq)
-                console.log(text)
+                for (var word in freq){
+                    if (!(word in summary))
+                        summary[word] = 0
+                    summary[word]++
+                }
+                if (frequencies.length > windowSize){
+                    var last = frequencies[0]
+                    frequencies = frequencies.slice(1)
+                    for (var word in last)
+                        summary[word]--
+                }
+                
+                
             })
+            printSummary(summary)
+            setTimeout(poll, 1000)
         }
-    })
+    })    
+}
+$(function(){
+    poll()
 })
 
 
