@@ -27,6 +27,9 @@
    "license" : "MIT",
    "dependencies": {
        "express": ">= 2.4.2",
-       "socket.io": ">= 0.7.6"
+       "socket.io": ">= 0.7.6",
+       "hiredis": "*",
+       "redis": "*",
+       "twitter-node": "*"
    }
 }
