@@ -59,15 +59,12 @@ $(function(){
         },
         dataType: 'jsonp',
         success: function(data){
-            for (var i = 0, len = data.results.length; i < len; i++){
-                var tweet = data.results[i]
-                var text = data.results[i].text
-                console.log(tweet.iso_language_code + ': ' + tweet.text)
+            _.each(data.results, function(tweet){
+                var text = tweet.text
                 var freq = wordSummary(text, CommonWords.english)
                 frequencies.push(freq)
-                
-                console.log(JSON.stringify(freq))
-            }
+                console.log(text)
+            })
         }
     })
 })
