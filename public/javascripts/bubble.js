@@ -38,9 +38,6 @@ d3.json( 'javascripts/sample.json', function(json) {
   setInterval(function(){
 
       // simulate new values for existing circles
-      delete data.r
-      delete data.x
-      delete data.y
       var i = 0;
       for (i = 0, len = data.children.length; i < len; i++){
           var c = data.children[i]
