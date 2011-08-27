@@ -47,7 +47,7 @@ function wordSummary(text){
     return freq
 }
 
-if (typeof 'exports' !== undefined){
+if (typeof exports !== 'undefined'){
     exports.wordSummary = wordSummary
     exports.tokenize = tokenize
 }

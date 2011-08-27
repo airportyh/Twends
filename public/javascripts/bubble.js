@@ -35,7 +35,7 @@ d3.json( 'javascripts/sample.json', function(json) {
       .attr("dy", ".3em")
       .text(function(d) { return d.className.substring(0, d.r / 3); });
       
-  setInterval(function(){
+  setTimeout(function(){
 
       // simulate new values for existing circles
       delete data.r
@@ -58,7 +58,7 @@ d3.json( 'javascripts/sample.json', function(json) {
       
      var newest = data.children[ i ];
      var newNode = d3.select("#chart").select("svg")
-                     .append("g").attr("class", "node");
+                     .append("svg:g").attr("class", "node");
      
      newNode.append("svg:title")
             .text(newest.packageName);
