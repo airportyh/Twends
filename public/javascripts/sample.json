@@ -1,0 +1,20 @@
+{
+ "name": "flare",
+ "children": [
+  {
+   "name": "analytics",
+   "children": [
+    {
+     "name": "cluster",
+     "children": [
+      {"name": "good", "size": 30},
+      {"name": "riddance", "size": 10},
+      {"name": "to", "size": 8},
+      {"name": "bad", "size": 13},
+      {"name": "rubbish", "size": 4}
+     ]
+    }
+   ]
+  }
+ ]
+}
