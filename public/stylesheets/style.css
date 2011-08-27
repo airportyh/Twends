@@ -304,3 +304,7 @@ body{
 	padding: 25px;
 	font-size: 3em;
 }
+
+text {
+  font: 14px/134% Helvetica Neue, sans-serif;
+}

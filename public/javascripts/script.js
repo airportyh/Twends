@@ -1,15 +1,128 @@
 /* Authors: Toby Ho, Rob Faraj */
 
-function printSummary(summary){
-    var pairs = _.keys(summary).map(function(key){
-        return [key, summary[key]]
+/* Global Variables!!! Ack! */
+var frequencies = [],
+    wordToElement = {},
+    summary = {},
+    windowSize = 50,
+    sinceID = null,
+    running = false,
+    query = null,
+    wordToIdx = {},
+    canvasWidth = 960,
+    canvasHeight = 960,
+    stop = false,
+    prevData = [],
+    data = [],
+    bubble = d3.layout.pack()
+        .sort(null)
+        .size([canvasWidth, canvasHeight])
+    
+function initVisualization(){
+    d3.select('#visualization').append('svg:svg')
+        .attr('width', 960)
+        .attr('height', 960)
+}
+
+function updateVisualization(summary){
+    console.log(JSON.stringify(summary))
+    var words = _.keys(summary).map(function(word){
+        return {word: word, value: summary[word]}
     }).filter(function(pair){
-        return pair[0] !== query
-    }).sort(function(one, other){
-        return other[1] - one[1]
-    }).slice(0, 10)
-    $('#visualization').text(pairs.map(function(p){ return p[0] + '(' + p[1] + ')' })
-        .join(' '))
+        return pair[0] !== query || pair[1] < 3
+    })
+    
+    if (_(wordToIdx).isEmpty()){
+        _(words).each(function(word, idx){
+            wordToIdx[word.word] = idx
+        })
+    }
+    
+    prevData = data
+    // build thedata array
+    data = []
+    for (var word in wordToIdx)
+        if (word in summary &&
+            word !== query){
+            data[wordToIdx[word]] = {
+                count: summary[word], 
+                value: summary[word] * 100, 
+                word: word
+            }
+        }else{
+            // a-hole
+            data[wordToIdx[word]] = {count: 0, value: 1, word: ''}
+        }
+    
+    
+    // remove all zeros at the end of the array
+    /*var last
+    while((last = _(data).last()) && last.value === 0)
+        data.splice(data.length - 1, 1)
+    */
+    _(data).each(function(d){
+        if (d.value === 0)
+            d.value = 1
+    })
+    
+
+    var bubbles = bubble.nodes({children: data})
+        .filter( function(d) { return !d.children; } )
+    
+    
+    /*
+    if (_(data).any(function(d){
+        return d.value === 0
+    }))
+        console.log('there are zeros')
+    
+    if (_(data).any(function(b){
+        return b.x != b.x
+    })){
+        
+        stop = true
+        throw new Error('crap')
+        return
+    }
+    */
+
+    var allNodes = d3.select('#visualization')
+        .select('svg')
+        .selectAll('g.node')
+        .data(bubbles)
+
+    var newNodes = allNodes
+        .enter().append('svg:g')
+            .attr('class', 'node')
+            
+    
+            
+    if (!window.newNodes)
+        window.newNodes = newNodes
+    
+    newNodes.append("svg:title")
+        .text(function(d) { return d3.format(',d')(d.value); })
+
+    newNodes.append("svg:circle")
+        .attr("r", function(d) { return d.r; })
+        .style("fill", function(d) { return ['red', 'green', 'blue'][Math.floor(Math.random() * 3)] })
+
+    newNodes.append("svg:text")
+        .attr("text-anchor", "middle")
+        .attr("dy", ".3em")
+        .text(function(d) { return d.word })
+        
+    allNodes
+      .transition()
+        .duration(1000)
+        .attr("transform", function(d) {
+            return "translate(" + d.x + "," + d.y + ")"
+        })
+        .select("circle")
+          .transition()
+          .duration(1000)
+          .attr("r", function(d) { return d.r; } );
+    
 }
 
 function reset(){
@@ -19,15 +132,6 @@ function reset(){
     sinceID = null
     timeoutID = null    
 }
-
-/* Global Variables!!! Ack! */
-var frequencies = [],
-    wordToElement = {},
-    summary = {},
-    windowSize = 50,
-    sinceID = null,
-    running = false,
-    query = null
 
 function decodeEntity(text){
     return $("<div/>").html(text).text()
@@ -43,6 +147,7 @@ function poll(){
         },
         dataType: 'jsonp',
         success: function(data){
+            if (stop) return
             _(data.results).each(function(tweet, i){
                 if (i === 0) sinceID = tweet.id_str
                 var text = decodeEntity(tweet.text)
@@ -62,7 +167,7 @@ function poll(){
             
             
             })
-            printSummary(summary)
+            updateVisualization(summary)
             timeoutID = setTimeout(poll, 1000)
         }
     })
@@ -103,13 +208,16 @@ function setQuery(q){
     $display.show()
 }
 
+
 $(function(){
+    initVisualization()
     getTrends()
     var $search = $('#search'),
         $input = $('#input'),
         $display = $('#queryDisplay'),
         $label = $display.find('label'),
-        $changeLink = $display.find('a')
+        $changeLink = $display.find('a'),
+        $stopBotton = $('#stopButton')
     $search.keyup(function(e){
         if (e.keyCode === 13){
             setQuery($(this).val())
@@ -118,6 +226,10 @@ $(function(){
     $changeLink.click(function(){
         $display.hide()
         $input.show().val('').focus()
+    })
+    $stopBotton.click(function(){
+        console.log('stopped')
+        stop = true
     })
 })
 

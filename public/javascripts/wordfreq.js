@@ -34,7 +34,7 @@ function tokenize(text){
             }
         })
         .filter(function(word){
-        	return CommonWords.indexOf(word) == -1
+        	return CommonWords.indexOf(word) == -1 && word !== ''
         })
 }
 
