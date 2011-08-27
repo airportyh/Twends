@@ -55,7 +55,7 @@ d3.json( 'javascripts/sample.json', function(json) {
       .attr("dy", ".3em")
       .text(function(d) { return d.className.substring(0, d.r / 3); });
       
-  setInterval(function(){
+  setTimeout(function(){
 
       // simulate new values for existing circles
       var i = 0;
@@ -73,7 +73,9 @@ d3.json( 'javascripts/sample.json', function(json) {
                              packageName: 'TestPackage',
                              className: 'TestClassName' };
       
-    var newest = data.children[ i ];
+     var newest = data.children[ i ];
+     var newNode = d3.select("#chart").select("svg")
+                     .append("svg:g").attr("class", "node");
      
     var nodes = vis.selectAll("g.node").data( bubble.nodes( data ).filter( function(d) { return !d.children; } ) );
     
