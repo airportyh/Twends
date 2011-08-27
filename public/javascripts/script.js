@@ -56,18 +56,28 @@ function printSummary(summary){
         .join(' '))
 }
 
+function reset(){
+    frequencies = []
+    wordToElement = {}
+    summary = {}
+    sinceID = null
+    timeoutID = null    
+}
+
 var frequencies = [],
     wordToElement = {},
     summary = {},
     windowSize = 200,
-    sinceID = null
+    sinceID = null,
+    running = false,
+    query = null
+
 
 function poll(){
-    var params = 
     $.ajax({
         url: 'http://search.twitter.com/search.json',
         data: {
-            q: 'node.js',
+            q: query,
             lang: 'en',
             since_id: sinceID
         },
@@ -89,16 +99,38 @@ function poll(){
                     for (var word in last)
                         summary[word]--
                 }
-                
-                
+            
+            
             })
             printSummary(summary)
-            setTimeout(poll, 1000)
+            timeoutID = setTimeout(poll, 1000)
         }
-    })    
+    })
 }
+
 $(function(){
-    poll()
+    var $search = $('#search'),
+        $display = $('#queryDisplay'),
+        $label = $display.find('label'),
+        $changeLink = $display.find('a')
+    $search.keyup(function(e){
+        if (e.keyCode === 13){
+            query = $(this).val()
+            if (running)
+                reset()
+            else{
+                running = true
+                poll()
+            }
+            $(this).hide()
+            $label.html(query)
+            $display.show()
+        }
+    })
+    $changeLink.click(function(){
+        $display.hide()
+        $search.show().val('').focus()
+    })
 })
 
 

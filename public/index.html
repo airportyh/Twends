@@ -23,7 +23,7 @@
 
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="stylesheets/style.css">
   <!-- end CSS-->
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
@@ -36,6 +36,11 @@
 
 <body>
 
+  <input id="search" type="search" name="query" placeholder="Search Twitter...">
+  <div id="queryDisplay" style="display: none">
+	<label></label><br>
+	<a href="#">{change}</a>
+  </div>
   <!-- JavaScript at the bottom for fast page loading -->
 
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
