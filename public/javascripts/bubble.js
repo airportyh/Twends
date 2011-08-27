@@ -1,3 +1,23 @@
+var hsl = {
+  green: {
+      hue: 146,
+      saturation: 100,
+      lightness: 25,
+      min: 100
+  },
+  red: {
+      hue: 356,
+      saturation: 100,
+      lightness: 25,
+      min: 30
+  },
+  grey: {
+      hue: 0,
+      saturation: 0,
+      lightness: 58,
+      min: 600
+  }
+}
 
 var r = 960,
     format = d3.format(",d"),
@@ -28,7 +48,7 @@ d3.json( 'javascripts/sample.json', function(json) {
 
   node.append("svg:circle")
       .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return fill(d.packageName); });
+      .style("fill", function(d) { return hslFromVal( d.value ); });
 
   node.append("svg:text")
       .attr("text-anchor", "middle")
@@ -66,7 +86,9 @@ d3.json( 'javascripts/sample.json', function(json) {
          
     newNode.append("svg:circle")
            .attr("r", 0)
-           .style("fill", "#cc0000" );
+           .style("fill", function(d) { 
+             return hslFromVal( d.value );
+            });
          
     newNode.append("svg:text")
            .attr("text-anchor", "middle")
@@ -80,7 +102,12 @@ d3.json( 'javascripts/sample.json', function(json) {
         .select("circle")
           .transition()
           .duration(1000)
-          .attr("r", function(d) { return d.r; } );
+          .attr("r", function(d) { return d.r; } )
+          .style("fill", function(d) { return hslFromVal( d.value ); });
+          
+     nodes
+      .select("title")
+      .text(function(d) { return d.packageName + ': ' + d.value; });
        
   }, 3000);
 });
@@ -97,3 +124,23 @@ function classes(root) {
   recurse(null, root);
   return {children: classes};
 }
+
+function hslFromVal( val ){
+  
+  var color = 'green';
+  
+  if( val < hsl.green.min ){
+    color = ( val < hsl.red.min ) ? 'red' : 'grey';
+  }
+  
+  // todo: intelligently figure out lightness
+  lightness = hsl[ color ].lightness + Math.floor(Math.random() * (10 - 5 + 1) + 5);
+  
+  // todo: figure out alpha
+  return "hsl(" + hsl[ color ].hue + ", " + hsl[ color ].saturation + "%, " +lightness + "%)";
+}
+
+
+
+
+
