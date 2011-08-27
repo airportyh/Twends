@@ -1,0 +1,35 @@
+{
+   "name": "cubespace",
+   "description": "A real-time twitter visualization thingamajig.",
+   "keywords": [
+       "real-time",
+       "twitter",
+       "words"
+   ],
+   "version": "0.0.1",
+   "authors": [
+       {
+          "name" : "Toby Ho", 
+          "email" : "airportyh@gmail.com"
+       },
+       {
+          "name" : "Rob Faraj", 
+          "email" : "rfaraj@gmail.com"
+       }
+   ],
+   "repository": {
+       "type": "git",
+       "url": "git@github.com:nko2/cubespace.git"
+   },
+   "engines": [
+       "node >= 0.4.11"
+   ],
+   "license" : "MIT",
+   "dependencies": {
+       "express": ">= 2.4.2",
+       "socket.io": ">= 0.7.6",
+       "hiredis": "*",
+       "redis": "*",
+       "twitter-node": "*"
+   }
+}

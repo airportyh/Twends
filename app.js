@@ -27,16 +27,18 @@ app.configure('production', function(){
 });
 
 // Routes
-
+/*
 app.get('/', function(req, res){
   res.render('index', {
     title: 'Express'
   });
 });
+*/
 
 // Only listen on $ node app.js
 
 if (!module.parent) {
-  app.listen(3000);
+  var port = process.env.NODE_ENV === 'production' ? 80 : 8080
+  app.listen(port);
   console.log("Express server listening on port %d", app.address().port);
 }
