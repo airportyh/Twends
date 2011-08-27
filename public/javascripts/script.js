@@ -22,14 +22,14 @@ CommonWords.english = "a about after again against all an another any and are as
  under until up\
  very\
  was wasn't we were we're what when where which while who why will with would wouldn't\
- you your".split(' ')
+ you your rt".split(' ')
  
 function tokenize(text, commonWords){
     return text
         .split(' ')
         .filter(function(p){return p != ''})
         .map(function(word){
-            return word.toLowerCase()
+            return word.toLowerCase().match(/^[^a-zA-Z0-9]*(.*?)[^a-zA-Z0-9]*$/)[1]
         })
         .filter(function(word){
         	return commonWords.indexOf(word) == -1
@@ -67,11 +67,14 @@ function reset(){
 var frequencies = [],
     wordToElement = {},
     summary = {},
-    windowSize = 200,
+    windowSize = 50,
     sinceID = null,
     running = false,
     query = null
 
+function decodeEntity(text){
+    return $("<div/>").html(text).text()
+}
 
 function poll(){
     $.ajax({
@@ -83,9 +86,9 @@ function poll(){
         },
         dataType: 'jsonp',
         success: function(data){
-            _.each(data.results, function(tweet, i){
+            _(data.results).each(function(tweet, i){
                 if (i === 0) sinceID = tweet.id_str
-                var text = tweet.text
+                var text = decodeEntity(tweet.text)
                 var freq = wordSummary(text, CommonWords.english)
                 frequencies.push(freq)
                 for (var word in freq){
@@ -95,7 +98,7 @@ function poll(){
                 }
                 if (frequencies.length > windowSize){
                     var last = frequencies[0]
-                    frequencies = frequencies.slice(1)
+                    frequencies.splice(0, 1)
                     for (var word in last)
                         summary[word]--
                 }
