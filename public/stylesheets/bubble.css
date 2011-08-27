@@ -1,3 +1,4 @@
+
 circle {
   stroke: #fff;
   stroke-width: 1.5px;
@@ -5,4 +6,6 @@ circle {
 
 text {
   font: 14px/134% Helvetica Neue, sans-serif;
+  fill: #fff;
+  font-weight: bold;
 }
