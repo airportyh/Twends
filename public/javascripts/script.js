@@ -29,7 +29,12 @@ function tokenize(text, commonWords){
         .split(' ')
         .filter(function(p){return p != ''})
         .map(function(word){
-            return word.toLowerCase().match(/^[^a-zA-Z0-9]*(.*?)[^a-zA-Z0-9]*$/)[1]
+            word = word.toLowerCase()
+            try{
+                return word.match(/^[^a-zA-Z0-9]*(.*?)[^a-zA-Z0-9]*$/)[1]
+            }catch(e){
+                return word
+            }
         })
         .filter(function(word){
         	return commonWords.indexOf(word) == -1
@@ -48,6 +53,8 @@ function wordSummary(text, commonWords){
 function printSummary(summary){
     var pairs = _.keys(summary).map(function(key){
         return [key, summary[key]]
+    }).filter(function(pair){
+        return pair[0] !== query
     }).sort(function(one, other){
         return other[1] - one[1]
     }).slice(0, 10)
