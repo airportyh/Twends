@@ -38,9 +38,6 @@ d3.json( 'javascripts/sample.json', function(json) {
   setTimeout(function(){
 
       // simulate new values for existing circles
-      delete data.r
-      delete data.x
-      delete data.y
       var i = 0;
       for (i = 0, len = data.children.length; i < len; i++){
           var c = data.children[i]
@@ -51,35 +48,39 @@ d3.json( 'javascripts/sample.json', function(json) {
           data.children[i] = c;
       }
       
-      // simulate addition of new circles
+      // simulate addition of new circles (one per iteration)
       data.children[ i ] = { value: Math.floor(Math.random() * (40 - 5 + 1) + 5),
-                             packageName: 'Test Package',
-                             className: 'Test Class Name' };
+                             packageName: 'TestPackage',
+                             className: 'TestClassName' };
       
      var newest = data.children[ i ];
      var newNode = d3.select("#chart").select("svg")
                      .append("svg:g").attr("class", "node");
      
-     newNode.append("svg:title")
+    var nodes = vis.selectAll("g.node").data( bubble.nodes( data ).filter( function(d) { return !d.children; } ) );
+    
+    var newNode = nodes.enter().append("svg:g").attr("class", "node");
+    
+    newNode.append("svg:title")
             .text(newest.packageName);
          
-     newNode.append("svg:circle")
-             .attr("r", 0)
-             .style("fill", "#cc0000" );
+    newNode.append("svg:circle")
+           .attr("r", 0)
+           .style("fill", "#cc0000" );
          
-     newNode.append("svg:text")
-             .attr("text-anchor", "middle")
-             .attr("dy", ".3em")
-             .text( newest.className );
-     
-      vis.selectAll("g.node").data( bubble.nodes( data ).filter( function(d) { return !d.children; } ) )
-        .transition()
+    newNode.append("svg:text")
+           .attr("text-anchor", "middle")
+           .attr("dy", ".3em")
+           .text( newest.className );
+             
+    nodes
+      .transition()
+        .duration(1000)
+        .attr("transform", function(d) { return "translate(" + (d.x) + "," + d.y + ")"; })
+        .select("circle")
+          .transition()
           .duration(1000)
-          .attr("transform", function(d) { return "translate(" + (d.x) + "," + d.y + ")"; })
-          .select("circle")
-            .transition()
-            .duration(1000)
-            .attr("r", function(d) { if(d.className === 'AgglomerativeCluster') console.log(d); return d.r; } );
+          .attr("r", function(d) { return d.r; } );
        
   }, 3000);
 });
