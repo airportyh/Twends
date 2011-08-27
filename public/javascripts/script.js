@@ -26,7 +26,6 @@ CommonWords.english = "a about after again against all an another any and are as
  
 function tokenize(text, commonWords){
     return text
-        .replace(/[^\'a-zA-Z]/g, ' ')
         .split(' ')
         .filter(function(p){return p != ''})
         .map(function(word){
@@ -64,6 +63,7 @@ function reset(){
     timeoutID = null    
 }
 
+/* Global Variables!!! Ack! */
 var frequencies = [],
     wordToElement = {},
     summary = {},
@@ -108,28 +108,56 @@ function poll(){
     })
 }
 
-$(function(){
+function getTrends(cb){
+    $.ajax({
+        url: 'http://api.twitter.com/1/trends.json',
+        dataType: 'jsonp',
+        success: function(data){
+            $('#trends').html(_(data.trends).map(function(trend){
+                return '<a href="#">' + trend.name + '</a>'
+            }).join(' '))
+                .find('a')
+                    .click(function(){
+                        setQuery($(this).text())
+                    })
+        }
+    })
+}
+
+function setQuery(q){
+    query = q
+    if (running){
+        console.log('reseting')
+        reset()
+    }else{
+        running = true
+        poll()
+    }
     var $search = $('#search'),
+        $input = $('#input'),
+        $display = $('#queryDisplay'),
+        $label = $display.find('label'),
+        $changeLink = $display.find('a')
+    $input.hide()
+    $label.html(query)
+    $display.show()
+}
+
+$(function(){
+    getTrends()
+    var $search = $('#search'),
+        $input = $('#input'),
         $display = $('#queryDisplay'),
         $label = $display.find('label'),
         $changeLink = $display.find('a')
     $search.keyup(function(e){
         if (e.keyCode === 13){
-            query = $(this).val()
-            if (running)
-                reset()
-            else{
-                running = true
-                poll()
-            }
-            $(this).hide()
-            $label.html(query)
-            $display.show()
+            setQuery($(this).val())
         }
     })
     $changeLink.click(function(){
         $display.hide()
-        $search.show().val('').focus()
+        $input.show().val('').focus()
     })
 })
 
