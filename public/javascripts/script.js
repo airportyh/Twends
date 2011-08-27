@@ -55,7 +55,6 @@ function initVisualization(){
 }
 
 function updateVisualization(summary){
-    console.log(JSON.stringify(summary))
     var words = _.keys(summary).map(function(word){
         return {word: word, value: summary[word]}
     }).filter(function(pair){
@@ -82,7 +81,7 @@ function updateVisualization(summary){
             }
         }else{
             // hole
-            data[wordToIdx[word]] = {count: 0, value: 1, word: ''}
+            data[wordToIdx[word]] = {count: 0, value: 50, word: ''}
         }
     
     
@@ -199,8 +198,9 @@ function poll(){
                         summary[word]--
                 }
             })
-            updateVisualization(summary)
-            timeoutID = setTimeout(poll, 1000)
+            if (data.results.length > 0)
+                updateVisualization(summary)
+            timeoutID = setTimeout(poll, 2000)
         }
     })
 }
@@ -227,7 +227,7 @@ function setQuery(q){
         query = query.match(/^[^a-zA-Z0-9]*(.*?)[^a-zA-Z0-9]*$/)[1]
     }catch(e){}
     if (running){
-        console.log('reseting')
+        //console.log('reseting')
         reset()
     }else{
         running = true
