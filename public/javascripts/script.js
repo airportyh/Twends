@@ -52,7 +52,7 @@ function printSummary(summary){
     }).sort(function(one, other){
         return other[1] - one[1]
     }).slice(0, 10)
-    console.log(pairs.map(function(p){ return p[0] + '(' + p[1] + ')' })
+    $('#visualization').text(pairs.map(function(p){ return p[0] + '(' + p[1] + ')' })
         .join(' '))
 }
 

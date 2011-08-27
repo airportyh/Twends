@@ -300,3 +300,7 @@ body{
 #queryDisplay label{
 	font-size: 2em;
 }
+#visualization{
+	padding: 25px;
+	font-size: 3em;
+}
