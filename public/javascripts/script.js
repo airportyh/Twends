@@ -88,58 +88,44 @@ function initVisualization(){
     fitCanvas()
 }
 
+function copy(obj){
+    var ret = {}
+    for (var k in obj)
+        ret[k] = obj[k]
+    return ret
+}
+
 function updateVisualization(summary){
-    var words = _.keys(summary).map(function(word){
-        return {word: word, value: summary[word]}
-    }).filter(function(pair){
-        return pair[0] !== query || pair[1] < 3
-    })
+    summary = copy(summary)
     
-    if (_(wordToIdx).isEmpty()){
-        _(words).each(function(word, idx){
-            wordToIdx[word.word] = idx
-        })
+    // First remove the words we don't want to show
+    for (var word in summary){
+        if (word === query || summary[word] < 3)
+            delete summary[word]
     }
     
-    prevData = data
-    // build thedata array
-    data = []
-    var svg = $('#visualization svg')[0]
-    for (var word in wordToIdx){
-        var idx = wordToIdx[word]
-        if (word in summary &&
-            word !== query.toLowerCase() &&
-            summary[word] > 2){
-            data[idx] = {
-                count: summary[word], 
-                value: summary[word], 
-                word: word
-            }
-        }else{
-            
-            // hole
-            data[idx] = null
-            // remove the actual element
-            var found = $('#visualization svg g')
-                .filter(function(){
-                    return $(this).find('text').text() === word
-                })
-            if (found.length > 0)
-                found.remove()
+    // loop through the existing nodes and either remove the node
+    // or initialize a data object in the array
+    var data = []
+    $('svg g').each(function(){
+        var $node = $(this),
+            word = $node.data('word')
+        if (!(word in summary))
+            $node.remove()
+        else{
+            data.push({word: word, count: summary[word], value: summary[word]})
+            // remove the word from the summary dict
+            delete summary[word]
         }
-    }
-    
-    data = data.filter(function(d){
-        return d !== null
     })
     
-    if (data.length === 0)
-        return
+    // Add the newly added words
+    for (var word in summary){
+        data.push({word: word, count: summary[word], value: summary[word]})
+    }
 
     var bubbles = bubble().nodes({children: data})
         .filter( function(d) { return !d.children; } )
-    
-    
 
     var allNodes = d3.select('#visualization')
         .select('svg')
@@ -149,16 +135,9 @@ function updateVisualization(summary){
     var newNodes = allNodes
         .enter().append('svg:g')
             .attr('class', 'node')
-            
-    
-            
-    if (!window.newNodes)
-        window.newNodes = newNodes
-        
 
     newNodes.append("svg:circle")
         .attr("r", function(d) { return 1; })
-        
 
     newNodes.append("svg:text")
         .attr("text-anchor", "middle")
@@ -168,6 +147,7 @@ function updateVisualization(summary){
         })
         
     allNodes
+      .attr('data-word', function(d){ return d.word })
       .transition()
         .duration(animateDuration)
         .attr("transform", function(d) {
