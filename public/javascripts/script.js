@@ -220,19 +220,20 @@ function poll(){
 
 function getTrends(){
     $.ajax({
-        url: 'http://api.twitter.com/1/trends.json',
+        url: 'http://api.twitter.com/1/trends/23424977.json',
         dataType: 'jsonp',
         error: function(){
             setTimeout(getTrends, refreshTrendsPeriod)
         },
         success: function(data){
+            data = data[0]
             $('#trends ul').html(_(data.trends).map(function(trend){
-                return '<li><a href="#">' + trend.name + '</a></li>'
+                var url = trend.name
+                if (url.charAt(0) === '#')
+                    url = escape(url.substring(0, 1)) + url.substring(1)
+                return '<li><a href="' + url + '">' + trend.name + '</a></li>'
             }).join(' '))
                 .find('a')
-                    .click(function(){
-                        setQuery($(this).text())
-                    })
             setTimeout(getTrends, refreshTrendsPeriod)
         }
     })

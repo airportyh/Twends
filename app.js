@@ -53,7 +53,7 @@ app.get('/', function(req, res){
 
 // General search
 app.get('/:term', function(req, res){
-  res.render('index', { term: req.params.term });
+  res.render('vis', { term: req.params.term });
 });
 
 // Only listen on $ node app.js

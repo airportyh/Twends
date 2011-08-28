@@ -368,3 +368,40 @@ li{
 	text-align: center;
 	border-radius: 5px;
 }
+
+#frontpage{
+	margin-top: -240px;
+	top: 50%;
+	position: absolute;
+	width: 100%;
+}
+#frontpage #trends{
+	font-size: 120%;
+}
+
+body, input, textarea{
+	font-family: Georgia, serif;
+}
+#frontpage hgroup{	
+	font-family: Ultra
+}
+h1{
+	font-family: Ultra, Georgia, serif;
+}
+#frontpage hgroup h1{
+	color: #fe57a1;
+	font-size: 5em;
+	margin-bottom: 0;
+}
+#frontpage hgroup h2{
+	color: #888;
+}
+#frontpage{
+}
+#or{
+	
+	font-size: 150%;
+	padding: 1em;
+	display: block;
+	margin: 0;
+}
