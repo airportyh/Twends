@@ -62,13 +62,13 @@ function blueBirdFly(num){
 
 function pickColor(val){
     if (val < 5)
-        return '#fdff91'
-    if (val < 12)
-        return '#ff8600'
-    else if (val < 20)
-        return '#ff423f'
+        return '#FCFF33'
+    if (val < 15)
+        return '#FFAD33'
+    else if (val < 25)
+        return '#FF6D33'
     else
-        return '#fe57a1'
+        return '#FF3333'
 }
 
 function initVisualization(){
@@ -134,6 +134,7 @@ function updateVisualization(summary){
             return '1px'
         })
         
+        
     allNodes
       .attr('data-word', function(d){ return d.word })
       .transition()
@@ -157,6 +158,9 @@ function updateVisualization(summary){
             })
             .transition()
             .duration(animateDuration)
+            .style('fill', function(d){
+                return d.value >= 25 ? '#fafafa' : '#000'
+            })
             .style('font-size', function(d){
                 if (d.word.length < 3)
                     return d.r + 'px'
