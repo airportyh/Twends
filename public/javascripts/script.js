@@ -33,7 +33,7 @@ function bubble(){
 }
     
 function fitCanvas(){        
-    canvasHeight = $(window).height() - $('#top').height() - 20
+    canvasHeight = $(window).height() - $('#top').height() - 60
     canvasWidth = $(window).width()
     d3.select('#visualization svg')
         .attr('width', canvasWidth)
