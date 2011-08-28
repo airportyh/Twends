@@ -65,7 +65,7 @@ function blueBirdFly(num){
                     $bird.remove()
                 }, refreshPeriod)
             }, 1)
-        }, Math.random() * 3000)
+        }, Math.random() * refreshPeriod)
     }
 }
 
