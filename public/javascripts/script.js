@@ -226,8 +226,8 @@ function getTrends(){
             setTimeout(getTrends, refreshTrendsPeriod)
         },
         success: function(data){
-            $('#trends').html(_(data.trends).map(function(trend){
-                return '<a href="#">' + trend.name + '</a>'
+            $('#trends ul').html(_(data.trends).map(function(trend){
+                return '<li><a href="#">' + trend.name + '</a></li>'
             }).join(' '))
                 .find('a')
                     .click(function(){

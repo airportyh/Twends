@@ -333,3 +333,14 @@ img.bird{
 	left: -50px;
 	cursor: pointer;
 }
+
+ul{
+  padding: 0;
+  margin: 0;
+}
+
+li{
+  list-style: none;
+  display: inline;
+  margin: 0 1em;
+}
