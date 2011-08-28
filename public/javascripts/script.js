@@ -65,7 +65,7 @@ function blueBirdFly(num){
 
 function pickColor(val){
     if (val < 5)
-        return '#e1cc4b'
+        return '#f9d65e'
     if (val < 15)
         return '#f39334'
     else if (val < 25)
