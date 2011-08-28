@@ -234,6 +234,7 @@ function getTrends(){
                 return '<li><a href="' + url + '">' + trend.name + '</a></li>'
             }).join(' '))
                 .find('a')
+            $("#trends h4").html("Trends:");
             setTimeout(getTrends, refreshTrendsPeriod)
         }
     })

@@ -361,9 +361,6 @@ li a:hover, li a:active, li a:visited{
 li a:hover{
   text-decoration: underline;
 }
-#main{
-  padding-top: 60px;
-}
 aside{
   margin: 5px auto 0px;
   width: 700px;
