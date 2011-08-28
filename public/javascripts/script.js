@@ -16,7 +16,8 @@ var frequencies = [],
     data = [],
     refreshPeriod = 3000,
     animateDuration = refreshPeriod / 2,
-    refreshTrendsPeriod = 5 * 60000
+    refreshTrendsPeriod = 5 * 60000,
+    showBirds = true
     
 function bubble(){
     return d3.layout.pack()
@@ -33,6 +34,7 @@ function fitCanvas(){
 }
 
 function blueBirdFly(num){
+  if(showBirds){
     for (var i = 0; i < num; i++){
         setTimeout(function(){
             var $bird = $('<img class="bird" src="images/blue-bird.png"/>')
@@ -50,6 +52,7 @@ function blueBirdFly(num){
             }, 1)
         }, Math.random() * refreshPeriod)
     }
+  }
 }
 
 function pickColor(val){
@@ -294,7 +297,8 @@ $(function(){
         $header = $display.find('h1'),
         $changeLink = $('#changeLink'),
         $stopBotton = $('#stopButton'),
-        $tweetsButton = $('#tweetsLink')
+        $tweetsButton = $('#tweetsLink'),
+        $birdsLink = $("#birdsLink")
         
     $search.keyup(function(e){
       
@@ -314,6 +318,20 @@ $(function(){
         } 
         
     })
+    
+    $birdsLink.tipsy({gravity: 'n'});
+    $birdsLink.click(function(e) {
+      
+      if( showBirds ){
+        showBirds = false;
+        $birdsLink.text( 'birds off' );
+      } else {
+        showBirds = true;
+        $birdsLink.text( 'birds on' );
+      }
+      
+      e.preventDefault();
+    });
     
     $changeLink.click(function(){
         $display.hide()

@@ -5,10 +5,11 @@ section(id: "top")
       ul
   section(id: "queryDisplay", style: "display: none")
     h1
-    br
     a(id: "changeLink", href: "#") change
-    &nbsp;
-    a(id: "tweetsLink", href: "#") tweets
+    span= "|"
+    a(id: "tweetsLink", href: "#") view tweets
+    span= "|"
+    a(id: "birdsLink", href: "#", title: "Each bird represents a tweet. Click to toggle.") birds on
 section(id: "visualization")
 - if(typeof term !== "undefined") 
   script
