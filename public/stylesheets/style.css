@@ -337,12 +337,43 @@ img.bird{
 ul{
   padding: 0;
   margin: 0;
+  list-style: disc;
+  display: inline;
 }
 
 li{
   list-style: none;
   display: inline;
   margin: 0 1em;
+}
+li a{
+  white-space: nowrap;
+  padding-top: 5px;
+  margin-top: 5px;
+  color: #2D76B9;
+  text-decoration: none;
+  
+  font: 14px Helvetica Neue,Arial,Helvetica,'Liberation Sans',FreeSans,sans-serif;
+}
+li a:hover, li a:active, li a:visited{
+  color: #2D76B9;
+}
+li a:hover{
+  text-decoration: underline;
+}
+#main{
+  padding-top: 60px;
+}
+aside{
+  margin: 5px auto 0px;
+  width: 700px;
+  line-height: 22px;
+}
+h4{
+  display: inline;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
 }
 #ieblurb{
 	margin: 40px;

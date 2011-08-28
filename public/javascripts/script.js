@@ -233,7 +233,8 @@ function getTrends(){
                     .click(function(){
                         setQuery($(this).text())
                     })
-            setTimeout(getTrends, refreshTrendsPeriod)
+            $('#trends h4').html("Trends:");
+           setTimeout(getTrends, refreshTrendsPeriod)
         }
     })
 }
