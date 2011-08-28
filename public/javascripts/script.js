@@ -214,40 +214,44 @@ function decodeEntity(text){
 }
 
 function poll(){
+    var params = {
+        q: query,
+        lang: 'en'
+    }
+    if (sinceID)
+        params.since_id = sinceID
     $.ajax({
         url: 'http://search.twitter.com/search.json',
-        data: {
-            q: query,
-            lang: 'en',
-            since_id: sinceID
-        },
+        data: params,
         dataType: 'jsonp',
         error: function(){
             setTimeout(poll, refreshPeriod)
         },
         success: function(data){
             if (stop) return
-            _(data.results).each(function(tweet, i){
-                if (i === 0) sinceID = tweet.id_str
-                var text = decodeEntity(tweet.text)
-                var freq = wordSummary(text)
-                frequencies.push(freq)
-                for (var word in freq){
-                    if (!(word in summary))
-                        summary[word] = 0
-                    summary[word]++
-                }
-                if (frequencies.length > windowSize){
-                    var last = frequencies[0]
-                    frequencies.splice(0, 1)
-                    for (var word in last)
-                        summary[word]--
-                }
-            })
-            if (data.results.length > 0)
-                blueBirdFly(data.results.length)
-            if (data.results.length > 0)
-                updateVisualization(summary)
+            if (params.q === query){
+                _(data.results).each(function(tweet, i){
+                    if (i === 0) sinceID = tweet.id_str
+                    var text = decodeEntity(tweet.text)
+                    var freq = wordSummary(text)
+                    frequencies.push(freq)
+                    for (var word in freq){
+                        if (!(word in summary))
+                            summary[word] = 0
+                        summary[word]++
+                    }
+                    if (frequencies.length > windowSize){
+                        var last = frequencies[0]
+                        frequencies.splice(0, 1)
+                        for (var word in last)
+                            summary[word]--
+                    }
+                })
+                if (data.results.length > 0)
+                    blueBirdFly(data.results.length)
+                if (data.results.length > 0)
+                    updateVisualization(summary)
+            }
             setTimeout(poll, refreshPeriod)
         }
     })
