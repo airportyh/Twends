@@ -297,9 +297,12 @@ body{
 	padding-top: 20px;
 	background-color: #e4e3de;
 }
-#search,
-#queryDisplay label{
+#search{
 	font-size: 2em;
+}
+#queryDisplay h1{
+	font-size: 3em;
+	margin: 0;
 }
 #visualization{
 	font-size: 3em;

@@ -291,10 +291,10 @@ function setQuery(q){
     var $search = $('#search'),
         $input = $('#input'),
         $display = $('#queryDisplay'),
-        $label = $display.find('label'),
+        $header = $display.find('h1'),
         $changeLink = $display.find('a')
     $input.hide()
-    $label.html(q)
+    $header.html(q)
     $display.show()
 }
 
@@ -306,7 +306,7 @@ $(function(){
     var $search = $('#search'),
         $input = $('#input'),
         $display = $('#queryDisplay'),
-        $label = $display.find('label'),
+        $header = $display.find('h1'),
         $changeLink = $display.find('a'),
         $stopBotton = $('#stopButton')
     $search.keyup(function(e){
