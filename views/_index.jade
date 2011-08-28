@@ -1,0 +1,23 @@
+section(id: "top")
+  section(id: "input")
+    input(id: "search", name: "query", type: "search", placeholder: "Search twitter...")
+    aside(id: "trends")
+  section(id: "queryDisplay", style: "display: none")
+    h1
+    br
+    a(id: "changeLink", href: "#") change
+    a(id: "tweetsLink", href: "#") tweets
+section(id: "visualization")
+section(id: "ieblurb")
+	h1 Hello, Internet Explorer user!
+	p Still using IE, eh? Unfortunately, Twends does not work with IE. If you are not willing make the switch to a 
+		a(href: "http://www.firefox.com") modern
+		a(href: "http://www.google.com/chrome") browser
+		, at least make your browser more powerful by installing
+		a(href: "http://www.google.com/chromeframe") Google Chrome Frame
+		! Wanna do it?
+		br
+		a(id: "yesToChromeFrame", href: "#") YES!
+- if(typeof term !== "undefined") 
+  script
+    var initialQuery = "#{term}";

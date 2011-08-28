@@ -1,6 +1,46 @@
-!!!
-html
+!!! 5
+/if lt IE 7
+  <html class="no-js ie6" lang="en">
+/if IE 7
+  <html class="no-js ie7" lang="en">
+/if IE 8
+  <html class="no-js ie8" lang="en">
+//[if gt IE 8]><!
+html(class="no-js", lang="en")
+  //<![endif]
   head
-    title= title
+    meta(charset='utf-8')
+    link(rel="dns-prefetch", "href"="//ajax.googleapis.com")
+    title= "Twends | View tweets like a boss"
+    meta(name='description', content='View the most frequently seen words in all tweets') 
+    meta(name='keywords', content='twends, visualization, data, bubbles')
+    link(rel='shortcut icon', href='/favicon.ico')
+    link(rel='apple-touch-icon', href='/apple-touch-icon.png')
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body!= body
+    script(src='/javascripts/libs/modernizr-2.0.6.min.js')
+  body
+    #container
+      header
+      #main(role='main')
+        != partial('index')
+      footer
+      
+  script(src='//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js')
+  script window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\\/script>')
+
+  script(defer, src='javascripts/plugins.js')
+  script(defer, src='javascripts/libs/underscore.js')
+  script(defer, src='javascripts/libs/d3.js')
+  script(defer, src='javascripts/libs/d3.layout.js')
+  script(defer, src='javascripts/wordfreq.js')
+  script(defer, src='javascripts/script.js')
+
+ script
+   var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview'],['_trackPageLoadTime']];
+   (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+   g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+   s.parentNode.insertBefore(g,s)}(document,'script'));
+
+ /if lt IE 7
+   script(src='//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js', defer)
+   script(defer) window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})
