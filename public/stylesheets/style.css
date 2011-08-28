@@ -424,9 +424,26 @@ h1{
 	font-size: 5em;
 	margin-bottom: 0;
 }
+
 #frontpage hgroup h2{
 	color: #888;
 }
+
+h1#sitetitle a{
+	display: block;
+	padding: 0 10px;
+	background-color: #fe57a1;
+	color: #fff;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	text-decoration: none;
+	border-bottom-right-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	
+}
+
 #frontpage{
 }
 #or{
@@ -436,3 +453,5 @@ h1{
 	display: block;
 	margin: 0;
 }
+
+
