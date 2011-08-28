@@ -16,6 +16,7 @@ var frequencies = [],
     data = [],
     refreshPeriod = 3000,
     animateDuration = refreshPeriod / 2,
+    refreshTrendsPeriod = 5 * 60000,
     hsl = {
       green: {
           hue: 146,
@@ -44,7 +45,7 @@ function bubble(){
 }
     
 function fitCanvas(){        
-    canvasHeight = $(window).height() - $('#top').height()
+    canvasHeight = $(window).height() - $('#top').height() - 20
     canvasWidth = $(window).width()
     d3.select('#visualization svg')
         .attr('width', canvasWidth)
@@ -257,10 +258,13 @@ function poll(){
     })
 }
 
-function getTrends(cb){
+function getTrends(){
     $.ajax({
         url: 'http://api.twitter.com/1/trends.json',
         dataType: 'jsonp',
+        error: function(){
+            setTimeout(getTrends, refreshTrendsPeriod)
+        },
         success: function(data){
             $('#trends').html(_(data.trends).map(function(trend){
                 return '<a href="#">' + trend.name + '</a>'
@@ -269,6 +273,7 @@ function getTrends(cb){
                     .click(function(){
                         setQuery($(this).text())
                     })
+            setTimeout(getTrends, refreshTrendsPeriod)
         }
     })
 }
