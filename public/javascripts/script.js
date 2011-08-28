@@ -259,6 +259,14 @@ function setQuery(q){
     $display.show()
 }
 
+
+function promptForChromeFrame(){
+    var script = document.createElement('script')
+    script.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js')
+    document.body.appendChild(script)
+    $("<script>CFInstall.check({mode:'overlay'})</script>").appendTo(document.body)
+}
+
 function initQuery(){
   if( typeof initialQuery !== "undefined" ){
     setQuery( initialQuery );
@@ -267,7 +275,12 @@ function initQuery(){
 }
 
 $(function(){
-  
+    if (navigator.userAgent.match(/MSIE/)){
+        $('#idblurb').show()
+        $('#yesToChromeFrame').click(promptForChromeFrame)
+        return
+    }
+    
     fitCanvas()
     initVisualization()
     initQuery()
