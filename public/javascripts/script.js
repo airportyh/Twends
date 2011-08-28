@@ -294,7 +294,9 @@ function initQuery(){
 
 $(function(){
     if (navigator.userAgent.match(/MSIE/)){
-        $('#idblurb').show()
+        $('#ieblurb').show()
+        $('#frontpage').hide()
+        $('#top').hide()
         $('#yesToChromeFrame').click(promptForChromeFrame)
         return
     }

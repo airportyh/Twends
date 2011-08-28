@@ -374,6 +374,9 @@ h4{
   color: #666;
 }
 #ieblurb{
+	position: absolute;
+	top: 0px;
+	left: 0px;
 	margin: 40px;
 	text-align: left;
 	font-size: 150%;
@@ -417,9 +420,15 @@ body, input, textarea{
 #frontpage hgroup{	
 	font-family: Ultra
 }
-h1{
+h1,
+.twends{
 	font-family: Ultra, Georgia, serif;
 }
+
+.twends{
+	color: #fe57a1;
+}
+	
 #frontpage hgroup h1{
 	color: #fe57a1;
 	font-size: 5em;
