@@ -346,7 +346,8 @@ li{
   display: inline;
   margin: 0 1em;
 }
-li a{
+li a,
+#queryDisplay a{
   white-space: nowrap;
   padding-top: 5px;
   margin-top: 5px;
@@ -424,9 +425,26 @@ h1{
 	font-size: 5em;
 	margin-bottom: 0;
 }
+
 #frontpage hgroup h2{
 	color: #888;
 }
+
+h1#sitetitle a{
+	display: block;
+	padding: 0 10px;
+	background-color: #fe57a1;
+	color: #fff;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	text-decoration: none;
+	border-bottom-right-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	
+}
+
 #frontpage{
 }
 #or{
@@ -463,3 +481,9 @@ h1{
   .tipsy-e .tipsy-arrow { right: 0; top: 50%; margin-top: -5px; border-left-style: solid; border-right: none; border-top-color: transparent; border-bottom-color: transparent; }
   .tipsy-w .tipsy-arrow { left: 0; top: 50%; margin-top: -5px; border-right-style: solid; border-left: none; border-top-color: transparent; border-bottom-color: transparent; }
 
+=======
+#badge{
+	position: fixed;
+	top: 0px;
+	right: 0px;
+}
