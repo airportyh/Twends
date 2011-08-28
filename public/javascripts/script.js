@@ -196,6 +196,8 @@ function updateVisualization(summary){
             .transition()
             .duration(1000)
             .style('font-size', function(d){
+                if (d.word.length < 3)
+                    return d.r + 'px'
                 return (d.r * (2 + 0.7) / d.word.length) + 'px'
             })
 }
