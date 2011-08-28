@@ -452,4 +452,8 @@ h1#sitetitle a{
 	margin: 0;
 }
 
-
+#badge{
+	position: fixed;
+	top: 0px;
+	right: 0px;
+}
