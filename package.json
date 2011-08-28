@@ -29,6 +29,7 @@
        "express": ">= 2.4.2",
        "socket.io": ">= 0.7.6",
        "redis": "*",
-       "twitter-node": "*"
+       "twitter-node": "*",
+       "nko": "*"
    }
 }
