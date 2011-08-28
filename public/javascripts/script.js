@@ -4,7 +4,7 @@
 var frequencies = [],
     wordToElement = {},
     summary = {},
-    windowSize = 50,
+    windowSize = 100,
     sinceID = null,
     running = false,
     query = null,
