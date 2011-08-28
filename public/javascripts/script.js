@@ -18,6 +18,13 @@ var frequencies = [],
     animateDuration = refreshPeriod / 2,
     refreshTrendsPeriod = 5 * 60000
     
+function trackEvent(category, action, label, value){
+	var event = ['_trackEvent', category, action, label, value]
+	if (typeof _gaq != 'undefined'){
+		_gaq.push(event)
+	}
+}
+    
 function bubble(){
     return d3.layout.pack()
         .sort(null)
@@ -41,6 +48,7 @@ function blueBirdFly(num){
                 .click(function(){
                     // Can you guess?
                     window.open('http://www.youtube.com/watch?v=oHg5SJYRHA0')
+                    trackEvent('Rick roll')
                 })
             setTimeout(function(){
                 $bird.css({left: ($(window).width() + 50) + 'px'})
@@ -263,6 +271,7 @@ function setQuery(q){
 
 
 function promptForChromeFrame(){
+    trackEvent('Chrome frame')
     var script = document.createElement('script')
     script.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js')
     document.body.appendChild(script)
@@ -323,6 +332,7 @@ $(function(){
     
     $tweetsButton.click(function(){
         window.open('http://twitter.com/search/' + query)
+        trackEvent('Open tweets')
         return false
     })
     
