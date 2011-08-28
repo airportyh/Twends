@@ -1,13 +1,30 @@
 section(id: "frontpage")
     hgroup
         h1(id: "sitetitle") Twends
-        h2 Watch twitter trends unfold right before your eyes
+        h2 
+          em Really 
+          | see what people are saying on Twitter
     input(id: "search", name: "query", type: "search", placeholder: "Search twitter...")
     br
     label(id: "or") or pick a current trend:
-    br
     aside(id: "trends")
       h4= "Loading trends..."
       ul
-      
+    #footer
+      span.bold= "built by"
+      a(href: "http://twitter.com/airportyh") @airportyh
+      span= "&"
+      a(href: "http://twitter.com/robfaraj") @robfaraj
+      span= "of"
+      a(href: "http://nodeknockout.com/teams/cubespace") Team CubeSpace
+      span= "for"
+      a(href: "http://nodeknockout.com/") node knockout 2011
+      span= "using"
+      a(href: "http://mbostock.github.com/d3") d3.js
+      span= ","
+      a(href: "http://html5boilerplate.com") h5bp
+      span= ","
+      a(href: "http://expressjs.com") express
+      span= "&"
+      a(href: "https://dev.twitter.com/docs/api/1/get/search") twitter
     

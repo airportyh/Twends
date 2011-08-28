@@ -66,7 +66,7 @@ a:hover, a:active { outline: 0; }
 
 abbr[title] { border-bottom: 1px dotted; }
 
-b, strong { font-weight: bold; }
+b, strong, .bold { font-weight: bold; }
 
 blockquote { margin: 1em 40px; }
 
@@ -481,9 +481,19 @@ h1#sitetitle a{
   .tipsy-e .tipsy-arrow { right: 0; top: 50%; margin-top: -5px; border-left-style: solid; border-right: none; border-top-color: transparent; border-bottom-color: transparent; }
   .tipsy-w .tipsy-arrow { left: 0; top: 50%; margin-top: -5px; border-right-style: solid; border-left: none; border-top-color: transparent; border-bottom-color: transparent; }
 
-=======
 #badge{
 	position: fixed;
 	top: 0px;
 	right: 0px;
+}
+
+#footer{
+  color: #999;
+  margin-top: 40px;
+}
+#footer a, #footer a:hover, #footer a:active, #footer a:visited{
+  color: #999;
+}
+#footer span{
+  padding: 0 4px;
 }
