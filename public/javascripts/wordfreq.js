@@ -28,13 +28,14 @@ function tokenize(text){
         .map(function(word){
             word = word.toLowerCase()
             try{
-                return word.match(/^[^a-zA-Z0-9]*(.*?)[^a-zA-Z0-9]*$/)[1]
+                return word.match(/^(.*?)[.,]*$/)[1]
             }catch(e){
                 return word
             }
         })
         .filter(function(word){
-        	return CommonWords.indexOf(word) == -1 && word !== ''
+        	return CommonWords.indexOf(word) == -1 && word !== '' &&
+        	    word.length > 1
         })
 }
 
