@@ -52,7 +52,7 @@ function fitCanvas(){
 
 function blueBirdFly(num){
     for (var i = 0; i < num; i++){
-        (function(){
+        setTimeout(function(){
             var $bird = $('<img class="bird" src="images/blue-bird.png"/>')
                 .prependTo('body')
                 .css({top: ($(window).height() * Math.random()) + 'px'})
@@ -65,7 +65,7 @@ function blueBirdFly(num){
                     $bird.remove()
                 }, refreshPeriod)
             }, 1)
-        })()
+        }, Math.random() * 3000)
     }
 }
 
