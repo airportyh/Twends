@@ -1,0 +1,13 @@
+section(id: "top")
+  section(id: "input")
+    input(id: "search", name: "query", type: "search", placeholder: "Search twitter...")
+    aside(id: "trends")
+  section(id: "queryDisplay", style: "display: none")
+    h1
+    br
+    a(id: "changeLink", href: "#") change
+    a(id: "tweetsLink", href: "#") tweets
+section(id: "visualization")
+- if(typeof term !== "undefined") 
+  script
+    var initialQuery = "#{term}";

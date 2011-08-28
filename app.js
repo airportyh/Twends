@@ -27,14 +27,34 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-// Routes
-/*
-app.get('/', function(req, res){
-  res.render('index', {
-    title: 'Express'
+// Example 500 page
+app.error(function(err, req, res){
+  res.render('500',{
+    locals: {
+      title: 'Something went wrong :(('
+    }
   });
 });
-*/
+
+// Example 404 page via simple Connect middleware
+app.use(function(req, res){
+  res.render('404',{
+    locals: {
+      title: 'Not found :(('
+    }
+  });
+});
+
+// Routes
+
+app.get('/', function(req, res){
+  res.render('index', {});
+});
+
+// General search
+app.get('/:term', function(req, res){
+  res.render('index', { term: req.params.term });
+});
 
 // Only listen on $ node app.js
 
