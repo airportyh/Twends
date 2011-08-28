@@ -153,8 +153,6 @@ function updateVisualization(summary){
             
     if (!window.newNodes)
         window.newNodes = newNodes
-    
-    newNodes.append("svg:title")
         
 
     newNodes.append("svg:circle")
@@ -183,10 +181,6 @@ function updateVisualization(summary){
           .transition()
           .duration(animateDuration)
           .attr("r", function(d) { return d.r; } )
-    allNodes
-        .select('title')
-            .text(function(d) { 
-                return d.count === 0 ? '' : d3.format(',d')(d.count) })
     allNodes
         .select('text')
             .text(function(d){
@@ -290,8 +284,7 @@ function setQuery(q){
     var $search = $('#search'),
         $input = $('#input'),
         $display = $('#queryDisplay'),
-        $header = $display.find('h1'),
-        $changeLink = $display.find('a')
+        $header = $display.find('h1')
     $input.hide()
     $header.html(q)
     $display.show()
@@ -306,8 +299,9 @@ $(function(){
         $input = $('#input'),
         $display = $('#queryDisplay'),
         $header = $display.find('h1'),
-        $changeLink = $display.find('a'),
-        $stopBotton = $('#stopButton')
+        $changeLink = $('#changeLink'),
+        $stopBotton = $('#stopButton'),
+        $tweetsButton = $('#tweetsLink')
     $search.keyup(function(e){
         if (e.keyCode === 13){
             setQuery($(this).val())
@@ -316,6 +310,11 @@ $(function(){
     $changeLink.click(function(){
         $display.hide()
         $input.show().val('').focus()
+        return false
+    })
+    $tweetsButton.click(function(){
+        window.open('http://twitter.com/search/' + query)
+        return false
     })
     $stopBotton.click(function(){
         console.log('stopped')
