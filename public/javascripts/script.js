@@ -70,31 +70,37 @@ function updateVisualization(summary){
     prevData = data
     // build thedata array
     data = []
-    for (var word in wordToIdx)
+    var svg = $('#visualization svg')[0]
+    for (var word in wordToIdx){
+        var idx = wordToIdx[word]
         if (word in summary &&
             word !== query.toLowerCase() &&
-            summary[word] >= 2){
-            data[wordToIdx[word]] = {
+            summary[word] > 2){
+            data[idx] = {
                 count: summary[word], 
                 value: summary[word] * 100, 
                 word: word
             }
         }else{
+            
             // hole
-            data[wordToIdx[word]] = {count: 0, value: 50, word: ''}
+            data[idx] = null
+            // remove the actual element
+            var found = $('#visualization svg g')
+                .filter(function(){
+                    return $(this).find('text').text() === word
+                })
+            if (found.length > 0)
+                found.remove()
         }
+    }
     
-    
-    // remove all zeros at the end of the array
-    /*var last
-    while((last = _(data).last()) && last.value === 0)
-        data.splice(data.length - 1, 1)
-    */
-    _(data).each(function(d){
-        if (d.value === 0)
-            d.value = 1
+    data = data.filter(function(d){
+        return d !== null
     })
     
+    if (data.length === 0)
+        return
 
     var bubbles = bubble().nodes({children: data})
         .filter( function(d) { return !d.children; } )
