@@ -59,6 +59,7 @@ function blueBirdFly(num){
                 .prependTo('body')
                 .css({top: ($(window).height() * Math.random()) + 'px'})
                 .click(function(){
+                    // Can you guess?
                     window.open('http://www.youtube.com/watch?v=oHg5SJYRHA0')
                 })
             setTimeout(function(){
@@ -72,7 +73,6 @@ function blueBirdFly(num){
 }
 
 function pickColor(val){
-    console.log('val: ' + val)
     if (val < 5)
         return '#fdff91'
     if (val < 12)
