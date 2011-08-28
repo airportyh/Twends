@@ -15,6 +15,7 @@ var frequencies = [],
     prevData = [],
     data = [],
     refreshPeriod = 3000,
+    animateDuration = refreshPeriod / 2,
     hsl = {
       green: {
           hue: 146,
@@ -157,21 +158,19 @@ function updateVisualization(summary){
         
 
     newNodes.append("svg:circle")
-        .attr("r", function(d) { return d.r; })
+        .attr("r", function(d) { return 1; })
         
 
     newNodes.append("svg:text")
         .attr("text-anchor", "middle")
         .attr("dy", ".3em")
         .style('font-size', function(d){
-            if (d.word.length < 3)
-                return d.r + 'px'
-            return (d.r * (2 + 0.8) / d.word.length) + 'px'
+            return '1px'
         })
         
     allNodes
       .transition()
-        .duration(1000)
+        .duration(animateDuration)
         .attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ")"
         })
@@ -182,7 +181,7 @@ function updateVisualization(summary){
         .select("circle")
           .style("fill", function(d) { return pickColor(d.value) })
           .transition()
-          .duration(1000)
+          .duration(animateDuration)
           .attr("r", function(d) { return d.r; } )
     allNodes
         .select('title')
@@ -194,7 +193,7 @@ function updateVisualization(summary){
                 return d.count === 0 ? '' : d.word
             })
             .transition()
-            .duration(1000)
+            .duration(animateDuration)
             .style('font-size', function(d){
                 if (d.word.length < 3)
                     return d.r + 'px'
