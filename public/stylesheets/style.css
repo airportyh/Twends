@@ -295,6 +295,7 @@ td { vertical-align: top; }
 body{
 	text-align: center;
 	padding-top: 20px;
+	background-color: #e4e3de;
 }
 #search,
 #queryDisplay label{
@@ -307,4 +308,25 @@ body{
 text {
 	font: 14px/134% Helvetica Neue, sans-serif;
 	cursor: default;
+	color: #444;
+}
+
+text,
+title
+svg,
+g,
+img{
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+img.bird{
+	position: absolute;
+	-webkit-transition: left 3s linear;
+	transition: left 3s linear;
+	left: -50px;
+	cursor: pointer;
 }

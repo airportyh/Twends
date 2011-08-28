@@ -14,6 +14,7 @@ var frequencies = [],
     stop = false,
     prevData = [],
     data = [],
+    refreshPeriod = 3000,
     hsl = {
       green: {
           hue: 146,
@@ -49,6 +50,37 @@ function fitCanvas(){
         .attr('height', canvasHeight)
 }
 
+function blueBirdFly(num){
+    for (var i = 0; i < num; i++){
+        (function(){
+            var $bird = $('<img class="bird" src="images/blue-bird.png"/>')
+                .prependTo('body')
+                .css({top: ($(window).height() * Math.random()) + 'px'})
+                .click(function(){
+                    window.open('http://www.youtube.com/watch?v=oHg5SJYRHA0')
+                })
+            setTimeout(function(){
+                $bird.css({left: ($(window).width() + 50) + 'px'})
+                setTimeout(function(){
+                    $bird.remove()
+                }, refreshPeriod)
+            }, 1)
+        })()
+    }
+}
+
+function pickColor(val){
+    console.log('val: ' + val)
+    if (val < 5)
+        return '#fdff91'
+    if (val < 12)
+        return '#ff8600'
+    else if (val < 20)
+        return '#ff423f'
+    else
+        return '#fe57a1'
+}
+
 function initVisualization(){
     d3.select('#visualization').append('svg:svg')
     fitCanvas()
@@ -78,7 +110,7 @@ function updateVisualization(summary){
             summary[word] > 2){
             data[idx] = {
                 count: summary[word], 
-                value: summary[word] * 100, 
+                value: summary[word], 
                 word: word
             }
         }else{
@@ -126,12 +158,16 @@ function updateVisualization(summary){
 
     newNodes.append("svg:circle")
         .attr("r", function(d) { return d.r; })
-        .style("fill", function(d) { return hslFromVal(d.value) })
+        
 
     newNodes.append("svg:text")
         .attr("text-anchor", "middle")
         .attr("dy", ".3em")
-        
+        .style('font-size', function(d){
+            if (d.word.length < 3)
+                return d.r + 'px'
+            return (d.r * (2 + 0.8) / d.word.length) + 'px'
+        })
         
     allNodes
       .transition()
@@ -144,6 +180,7 @@ function updateVisualization(summary){
         })
     allNodes
         .select("circle")
+          .style("fill", function(d) { return pickColor(d.value) })
           .transition()
           .duration(1000)
           .attr("r", function(d) { return d.r; } )
@@ -155,6 +192,11 @@ function updateVisualization(summary){
         .select('text')
             .text(function(d){
                 return d.count === 0 ? '' : d.word
+            })
+            .transition()
+            .duration(1000)
+            .style('font-size', function(d){
+                return (d.r * (2 + 0.7) / d.word.length) + 'px'
             })
 }
 
@@ -185,6 +227,9 @@ function poll(){
             since_id: sinceID
         },
         dataType: 'jsonp',
+        error: function(){
+            setTimeout(poll, refreshPeriod)
+        },
         success: function(data){
             if (stop) return
             _(data.results).each(function(tweet, i){
@@ -205,8 +250,10 @@ function poll(){
                 }
             })
             if (data.results.length > 0)
+                blueBirdFly(data.results.length)
+            if (data.results.length > 0)
                 updateVisualization(summary)
-            timeoutID = setTimeout(poll, 2000)
+            setTimeout(poll, refreshPeriod)
         }
     })
 }
@@ -289,25 +336,3 @@ function hslFromVal( val ){
   
   return "hsl(" + hsl[ color ].hue + ", " + hsl[ color ].saturation + "%, " +lightness + "%)";
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
