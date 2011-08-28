@@ -333,3 +333,28 @@ img.bird{
 	left: -50px;
 	cursor: pointer;
 }
+
+#ieblurb{
+	margin: 40px;
+	text-align: left;
+	font-size: 150%;
+}
+#ieblurb h1{
+	color: green;
+}
+
+#yesToChromeFrame{
+	font-weight: bold;
+	font-size: 3em;
+	border: 2px solid #444;
+	background-color: green;
+	color: white;
+	text-decoration: none;
+	padding: 0.5em;
+	display: block;
+	margin: auto;
+	margin-top: 1em;
+	width: 3em;
+	text-align: center;
+	border-radius: 5px;
+}
