@@ -22,7 +22,7 @@
        "url": "git://github.com/airportyh/Twends.git"
    },
    "engines": [
-       "node >= 0.4.11"
+       "node >= 0.4.7"
    ],
    "license" : "MIT",
    "dependencies": {
