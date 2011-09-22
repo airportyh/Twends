@@ -19,7 +19,7 @@
    ],
    "repository": {
        "type": "git",
-       "url": "git@github.com:nko2/cubespace.git"
+       "url": "git://github.com/airportyh/Twends.git"
    },
    "engines": [
        "node >= 0.4.11"
@@ -28,9 +28,6 @@
    "dependencies": {
        "express": "== 2.2.0",
        "socket.io": ">= 0.7.6",
-       "jade": "== 0.10.3",
-       "redis": "*",
-       "twitter-node": "*",
-       "nko": "*"
+       "jade": "== 0.10.3"
    }
 }

@@ -3,8 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('express'),
-    nko = require('nko')('VKKwtFlZ6pUujT8q')
+var express = require('express')
 
 var app = module.exports = express.createServer();
 
@@ -59,7 +58,7 @@ app.get('/:term', function(req, res){
 // Only listen on $ node app.js
 
 if (!module.parent) {
-  var port = process.env.NODE_ENV === 'production' ? 80 : 8080
+  var port = process.env.NODE_ENV === 'production' ? 21780 : 8080
   app.listen(port);
   console.log("Express server listening on port %d", app.address().port);
 }
