@@ -58,7 +58,7 @@ app.get('/:term', function(req, res){
 // Only listen on $ node app.js
 
 if (!module.parent) {
-  var port = process.env.NODE_ENV === 'production' ? 21780 : 8080
+  var port = 21780
   app.listen(port);
   console.log("Express server listening on port %d", app.address().port);
 }

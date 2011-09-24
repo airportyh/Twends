@@ -329,6 +329,7 @@ img{
 img.bird{
 	position: absolute;
 	-webkit-transition: left 3s linear;
+	-moz-transition: left 3s linear;
 	transition: left 3s linear;
 	left: -50px;
 	cursor: pointer;
