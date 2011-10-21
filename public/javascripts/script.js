@@ -4,7 +4,7 @@
 var frequencies = [],
     wordToElement = {},
     summary = {},
-    windowSize = 100,
+    windowSize = 75,
     sinceID = null,
     running = false,
     query = null,
@@ -49,8 +49,8 @@ function blueBirdFly(num){
                 .css({top: ($(window).height() * Math.random()) + 'px'})
                 .click(function(){
                     // Can you guess?
-                    window.open('http://www.youtube.com/watch?v=oHg5SJYRHA0')
                     trackEvent('Rick roll')
+                    window.open('http://www.youtube.com/watch?v=oHg5SJYRHA0')
                 })
             setTimeout(function(){
                 $bird.css({left: ($(window).width() + 50) + 'px'})
@@ -355,8 +355,8 @@ $(function(){
     })
     
     $tweetsButton.click(function(){
-        window.open('http://twitter.com/search/' + query)
         trackEvent('Open tweets')
+        window.open('http://twitter.com/search/' + query)
         return false
     })
     
